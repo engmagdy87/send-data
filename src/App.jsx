@@ -48,7 +48,7 @@ function App() {
       </div>
       {dataFromIOS && (
         <>
-          <p>Received Data from iOS appppp</p>
+          <p>Received Data from iOS appp</p>
           <p style={{ width: "100%" }}>{JSON.stringify(dataFromIOS)}</p>
         </>
       )}
