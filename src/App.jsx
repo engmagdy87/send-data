@@ -1,30 +1,17 @@
-import { useEffect, useState, useCallback } from "react";
+import useIOSPostMessage from "./hooks/useIOSPostMessage";
+import useIOSJSInjection from "./hooks/useIOSJSInjection";
 import "./App.css";
+import { useEffect } from "react";
 
 function App() {
-  const [dataFromIOSPostMessage, setDataFromIOSPostMessage] = useState("");
-  const [dataFromIOSJSInjection, setDataFromIOSJSInjection] = useState("");
+  const dataFromIOSPostMessage = useIOSPostMessage();
+  const dataFromIOSJSInjection = useIOSJSInjection();
 
   useEffect(() => {
-    if (window?.iosJSInjectionData) {
-      setDataFromIOSJSInjection(window.iosJSInjectionData);
+    if (dataFromIOSJSInjection) {
+      console.log(dataFromIOSJSInjection);
     }
-  }, []);
-
-  const iosPostMessageEventHandler = useCallback((e) => {
-    setDataFromIOSPostMessage(e.detail.data);
-  }, []);
-
-  useEffect(() => {
-    window.addEventListener("iosPostMessageData", iosPostMessageEventHandler);
-
-    return () => {
-      window.removeEventListener(
-        "iosPostMessageData",
-        iosPostMessageEventHandler
-      );
-    };
-  }, [iosPostMessageEventHandler]);
+  }, [dataFromIOSJSInjection]);
 
   const sendDataToNative = () => {
     if (
