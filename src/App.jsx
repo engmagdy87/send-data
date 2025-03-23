@@ -2,38 +2,36 @@ import { useEffect, useState, useCallback } from "react";
 import "./App.css";
 
 function App() {
-  const [dataFromIOS, setDataFromIOS] = useState("");
+  const [dataFromIOSPostMessage, setDataFromIOSPostMessage] = useState("");
+  const [dataFromIOSJSInjection, setDataFromIOSJSInjection] = useState("");
 
   useEffect(() => {
-    window.addEventListener("iosEvent", iosEventHandler);
-
-    return () => {
-      window.removeEventListener("iosEvent", iosEventHandler);
-    };
+    if (window.iosJSInjectionData) {
+      setDataFromIOSJSInjection(window.iosJSInjectionData);
+    }
   }, []);
 
-  const iosEventHandler = useCallback(
-    (e) => {
-      alert(e.detail.data);
-      console.log(e.detail.data);
-      setDataFromIOS(e.detail.data);
-    },
-    [setDataFromIOS]
-  );
+  const iosPostMessageEventHandler = useCallback((e) => {
+    setDataFromIOSPostMessage(e.detail.data);
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener("iosPostMessageData", iosPostMessageEventHandler);
+
+    return () => {
+      window.removeEventListener(
+        "iosPostMessageData",
+        iosPostMessageEventHandler
+      );
+    };
+  }, [iosPostMessageEventHandler]);
 
   const sendDataToNative = () => {
-    // if (window.Android) {
-    //   // Android
-    //   window.Android.sendData(
-    //     JSON.stringify({ message: "Hello Android Native App!" })
-    //   );
-    // } else
     if (
       window.webkit &&
       window.webkit.messageHandlers &&
       window.webkit.messageHandlers.updateAddress
     ) {
-      // iOS
       window.webkit.messageHandlers.updateAddress.postMessage({
         message: "Hello iOS Native App!",
       });
@@ -47,16 +45,32 @@ function App() {
     <>
       <h2>Test Data Transmission Between WebView and iOS App</h2>
       <div className="card">
-        <button onClick={sendDataToNative}>Send Data To Native App</button>
+        <button onClick={sendDataToNative}>Send Data To Native iOS App</button>
       </div>
-      <>
-        <p>Received Data from iOS app:</p>
-        {dataFromIOS ? (
-          <p style={{ width: "100%" }}>{JSON.stringify(dataFromIOS)}</p>
+      <div className="card-border">
+        <h3>Received Data from iOS app using postMessage:</h3>
+        {dataFromIOSPostMessage ? (
+          <p style={{ width: "100%" }}>
+            {JSON.stringify(dataFromIOSPostMessage)}
+          </p>
         ) : (
-          <>No data received yet</>
+          <p style={{ opacity: 0.4 }}>No data received yet using postMessage</p>
         )}
-      </>
+      </div>
+      <br />
+      <br />
+      <div className="card-border">
+        <h3>Received Data from iOS app using JS Injection:</h3>
+        {dataFromIOSJSInjection ? (
+          <p style={{ width: "100%" }}>
+            {JSON.stringify(dataFromIOSJSInjection)}
+          </p>
+        ) : (
+          <p style={{ opacity: 0.4 }}>
+            No data received yet using JS Injection
+          </p>
+        )}
+      </div>
     </>
   );
 }

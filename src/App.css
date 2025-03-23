@@ -37,6 +37,16 @@
   padding: 2em;
 }
 
+h3 {
+  margin-top: 0;
+}
+
+.card-border {
+  padding: 2em 1em;
+  border: 1px solid #61dafbaa;
+  border-radius: 8px;
+}
+
 .read-the-docs {
   color: #888;
 }
