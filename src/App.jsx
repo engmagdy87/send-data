@@ -23,12 +23,13 @@ function App() {
 
   return (
     <>
-      <h2>Test Data Transmission Between WebView and iOS App</h2>
-      <div className="card">
-        <button onClick={sendDataToNative}>Send Data To Native iOS App</button>
+      <h3>Test Data Transmission Between WebView and iOS App</h3>
+      <div className="card-border">
+        <h4>Send Data to iOS App using postMessage</h4>
+        <button onClick={sendDataToNative}>Send</button>
       </div>
       <div className="card-border">
-        <h3>Received Data from iOS app using postMessage:</h3>
+        <h4>Received Data from iOS app using postMessage</h4>
         {dataFromIOSPostMessage ? (
           <p style={{ width: "100%" }}>
             {JSON.stringify(dataFromIOSPostMessage)}
@@ -37,10 +38,10 @@ function App() {
           <p style={{ opacity: 0.4 }}>No data received yet using postMessage</p>
         )}
       </div>
-      <br />
-      <br />
       <div className="card-border">
-        <h3>Received Data from iOS app using JS Injection:</h3>
+        <h4>
+          Received Data from iOS app using <br /> JS Injection
+        </h4>
         {dataFromIOSJSInjection ? (
           <p style={{ width: "100%" }}>
             {JSON.stringify(dataFromIOSJSInjection)}

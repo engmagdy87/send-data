@@ -37,14 +37,16 @@
   padding: 2em;
 }
 
-h3 {
+h3,
+h4 {
   margin-top: 0;
 }
 
 .card-border {
-  padding: 2em 1em;
+  padding: 2em 8px;
   border: 1px solid #61dafbaa;
   border-radius: 8px;
+  margin: 16px 0;
 }
 
 .read-the-docs {
