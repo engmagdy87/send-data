@@ -46,12 +46,14 @@ function App() {
       <div className="card">
         <button onClick={sendDataToNative}>Send Data To Native App</button>
       </div>
-      {dataFromIOS && (
-        <>
-          <p>Received Data from iOS app</p>
+      <>
+        <p>Received Data from iOS app:</p>
+        {dataFromIOS ? (
           <p style={{ width: "100%" }}>{JSON.stringify(dataFromIOS)}</p>
-        </>
-      )}
+        ) : (
+          <>No data received yet</>
+        )}
+      </>
     </>
   );
 }
