@@ -44,11 +44,11 @@ function App() {
     <>
       <h2>Test Data Transmission Between WebView and iOS App</h2>
       <div className="card">
-        <button onClick={sendDataToNative}>Send Data To Native App</button>
+        <button onClick={sendDataToNative}>Send Data To Native Appp</button>
       </div>
       {dataFromIOS && (
         <>
-          <p>Received Data from iOS appp</p>
+          <p>Received Data from iOS app</p>
           <p style={{ width: "100%" }}>{JSON.stringify(dataFromIOS)}</p>
         </>
       )}
