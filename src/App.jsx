@@ -38,6 +38,9 @@ function App() {
         message: "Hello iOS Native App!",
       });
     }
+    alert(
+      "Sent data => " + JSON.stringify({ message: "Hello iOS Native App!" })
+    );
   };
 
   return (
