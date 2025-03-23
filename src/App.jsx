@@ -1,17 +1,10 @@
 import useIOSPostMessage from "./hooks/useIOSPostMessage";
 import useIOSJSInjection from "./hooks/useIOSJSInjection";
 import "./App.css";
-import { useEffect } from "react";
 
 function App() {
   const dataFromIOSPostMessage = useIOSPostMessage();
   const dataFromIOSJSInjection = useIOSJSInjection();
-
-  useEffect(() => {
-    if (dataFromIOSJSInjection) {
-      console.log(dataFromIOSJSInjection);
-    }
-  }, [dataFromIOSJSInjection]);
 
   const sendDataToNative = () => {
     if (
@@ -22,10 +15,10 @@ function App() {
       window.webkit.messageHandlers.updateAddress.postMessage({
         message: "Hello iOS Native App!",
       });
+      alert(
+        "Sent data => " + JSON.stringify({ message: "Hello iOS Native App!" })
+      );
     }
-    alert(
-      "Sent data => " + JSON.stringify({ message: "Hello iOS Native App!" })
-    );
   };
 
   return (

@@ -4,17 +4,14 @@ const useIOSPostMessage = () => {
   const [dataFromIOSPostMessage, setDataFromIOSPostMessage] = useState(null);
 
   const iosPostMessageEventHandler = useCallback((e) => {
-    setDataFromIOSPostMessage(e.detail.data);
+    setDataFromIOSPostMessage(e.data);
   }, []);
 
   useEffect(() => {
-    window.addEventListener("iosPostMessageData", iosPostMessageEventHandler);
+    window.addEventListener("message", iosPostMessageEventHandler);
 
     return () => {
-      window.removeEventListener(
-        "iosPostMessageData",
-        iosPostMessageEventHandler
-      );
+      window.removeEventListener("message", iosPostMessageEventHandler);
     };
   }, [iosPostMessageEventHandler]);
 
