@@ -2,20 +2,40 @@ import { useState, useEffect, useCallback } from "react";
 
 const useIOSPostMessage = () => {
   const [dataFromIOSPostMessage, setDataFromIOSPostMessage] = useState(null);
+  const [dataFromIOSPostMessageCustom, setDataFromIOSPostMessageCustom] =
+    useState(null);
 
-  const iosPostMessageEventHandler = useCallback((e) => {
-    setDataFromIOSPostMessage(e.data);
+  const iosPostMessageEventHandlerMessage = useCallback((e) => {
+    setDataFromIOSPostMessage(e?.data);
+  }, []);
+
+  const iosPostMessageEventHandlerCustom = useCallback((e) => {
+    setDataFromIOSPostMessageCustom(e?.token);
   }, []);
 
   useEffect(() => {
-    window.addEventListener("message", iosPostMessageEventHandler);
+    window.addEventListener("message", iosPostMessageEventHandlerMessage);
 
     return () => {
-      window.removeEventListener("message", iosPostMessageEventHandler);
+      window.removeEventListener("message", iosPostMessageEventHandlerMessage);
     };
-  }, [iosPostMessageEventHandler]);
+  }, [iosPostMessageEventHandlerMessage]);
 
-  return dataFromIOSPostMessage;
+  useEffect(() => {
+    window.addEventListener(
+      "iosPostMessageData",
+      iosPostMessageEventHandlerCustom
+    );
+
+    return () => {
+      window.removeEventListener(
+        "iosPostMessageData",
+        iosPostMessageEventHandlerCustom
+      );
+    };
+  }, [iosPostMessageEventHandlerCustom]);
+
+  return { dataFromIOSPostMessage, dataFromIOSPostMessageCustom };
 };
 
 export default useIOSPostMessage;

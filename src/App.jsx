@@ -30,12 +30,29 @@ function App() {
       </div>
       <div className="card-border">
         <h4>Received Data from iOS app using postMessage</h4>
-        {dataFromIOSPostMessage ? (
+        {dataFromIOSPostMessage?.dataFromIOSPostMessage ? (
           <p style={{ width: "100%" }}>
-            {JSON.stringify(dataFromIOSPostMessage)}
+            {JSON.stringify(dataFromIOSPostMessage.dataFromIOSPostMessage)}
           </p>
         ) : (
-          <p style={{ opacity: 0.4 }}>No data received yet using postMessage</p>
+          <p style={{ opacity: 0.4 }}>
+            No data received yet using <br />
+            postMessage
+          </p>
+        )}
+        <hr />
+        {dataFromIOSPostMessage?.dataFromIOSPostMessageCustom ? (
+          <p style={{ width: "100%" }}>
+            {JSON.stringify(
+              dataFromIOSPostMessage.dataFromIOSPostMessageCustom
+            )}
+          </p>
+        ) : (
+          <p style={{ opacity: 0.4 }}>
+            No data received yet using
+            <br />
+            custom postMessage
+          </p>
         )}
       </div>
       <div className="card-border">
@@ -48,7 +65,8 @@ function App() {
           </p>
         ) : (
           <p style={{ opacity: 0.4 }}>
-            No data received yet using JS Injection
+            No data received yet using <br />
+            JS Injection
           </p>
         )}
       </div>
