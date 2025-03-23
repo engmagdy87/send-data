@@ -6,7 +6,7 @@ function App() {
   const [dataFromIOSJSInjection, setDataFromIOSJSInjection] = useState("");
 
   useEffect(() => {
-    if (window.iosJSInjectionData) {
+    if (window?.iosJSInjectionData) {
       setDataFromIOSJSInjection(window.iosJSInjectionData);
     }
   }, []);
