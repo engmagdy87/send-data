@@ -44,7 +44,7 @@ function App() {
     <>
       <h2>Test Data Transmission Between WebView and iOS App</h2>
       <div className="card">
-        <button onClick={sendDataToNative}>Send Data To Native Appp</button>
+        <button onClick={sendDataToNative}>Send Data To Native App</button>
       </div>
       {dataFromIOS && (
         <>
