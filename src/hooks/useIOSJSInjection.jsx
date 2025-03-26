@@ -18,7 +18,7 @@ const useIOSJSInjection = () => {
 
   useEffect(() => {
     // Check if window.receiveToken exists and override it to update React state
-    alert(window?.receiveToken);
+    alert;
     if (window.receiveToken) {
       // const originalReceiveToken = window.receiveToken;
       window.receiveToken = (user, token) => {
@@ -34,6 +34,19 @@ const useIOSJSInjection = () => {
       //   setAuthToken(storedToken);
       // }
     }
+  }, []);
+
+  useEffect(() => {
+    const handleTokenReceived = (event) => {
+      setAuthToken(event.detail); // Update state with token from event
+    };
+
+    window.addEventListener("tokenReceived", handleTokenReceived);
+
+    // Cleanup listener on unmount
+    return () => {
+      window.removeEventListener("tokenReceived", handleTokenReceived);
+    };
   }, []);
 
   return { user, token: authToken };
