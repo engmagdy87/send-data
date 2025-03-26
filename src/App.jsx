@@ -15,9 +15,6 @@ function App() {
       window.webkit.messageHandlers.updateAddress.postMessage({
         message: "Hello iOS Native App!",
       });
-      alert(
-        "Sent data => " + JSON.stringify({ message: "Hello iOS Native App!" })
-      );
     }
   };
 
