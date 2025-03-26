@@ -18,6 +18,7 @@ const useIOSJSInjection = () => {
 
   useEffect(() => {
     // Check if window.receiveToken exists and override it to update React state
+    alert(window?.receiveToken);
     if (window.receiveToken) {
       // const originalReceiveToken = window.receiveToken;
       window.receiveToken = (user, token) => {
