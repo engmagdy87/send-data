@@ -39,6 +39,9 @@ const useIOSJSInjection = () => {
   useEffect(() => {
     const handleTokenReceived = (event) => {
       setAuthToken(event.detail); // Update state with token from event
+      console.log("====================================");
+      console.log(event);
+      console.log("====================================");
     };
 
     window.addEventListener("tokenReceived", handleTokenReceived);
