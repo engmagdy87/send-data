@@ -25,17 +25,17 @@ const useIOSJSInjection = () => {
   }, []);
 
   // Optional: Handle manual calls to window.receiveToken after initial injection
-  useEffect(() => {
-    if (window.receiveToken) {
-      const originalReceiveToken = window.receiveToken;
-      window.receiveToken = (user, token) => {
-        console.log("Manual call to receiveToken:", { user, token });
-        setUser(user);
-        setToken(token);
-        originalReceiveToken(user, token); // Preserve original behavior (localStorage, event)
-      };
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (window.receiveToken) {
+  //     const originalReceiveToken = window.receiveToken;
+  //     window.receiveToken = (user, token) => {
+  //       console.log("Manual call to receiveToken:", { user, token });
+  //       setUser(user);
+  //       setToken(token);
+  //       originalReceiveToken(user, token); // Preserve original behavior (localStorage, event)
+  //     };
+  //   }
+  // }, []);
 
   return { user, token };
 };
