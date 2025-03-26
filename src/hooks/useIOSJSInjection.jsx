@@ -1,58 +1,43 @@
 import { useState, useEffect } from "react";
 
 const useIOSJSInjection = () => {
-  // const [dataFromIOSJSInjection, setDataFromIOSJSInjection] = useState(null);
-
-  // useEffect(() => {
-  //   if (window?.iosJSInjectionData) {
-  //     setDataFromIOSJSInjection(window.iosJSInjectionData);
-  //   }
-  // }, []);
-
-  // return dataFromIOSJSInjection;
-
-  //----------------------------
-
-  const [authToken, setAuthToken] = useState(null);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    const storedUser = localStorage.getItem("userData");
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
+  const [token, setToken] = useState(() => localStorage.getItem("authToken"));
 
   useEffect(() => {
-    // Check if window.receiveToken exists and override it to update React state
-    alert;
-    if (window.receiveToken) {
-      // const originalReceiveToken = window.receiveToken;
-      window.receiveToken = (user, token) => {
-        console.log("Received token from iOS in React:", token);
-        setAuthToken(token); // Set React state
-        setUser(user); // Set React state
-        // originalReceiveToken(token); // Call original to keep localStorage behavior
-      };
-
-      // If the token was already set before React mounted, retrieve it from localStorage
-      // const storedToken = localStorage.getItem("authToken");
-      // if (storedToken) {
-      //   setAuthToken(storedToken);
-      // }
-    }
-  }, []);
-
-  useEffect(() => {
-    const handleTokenReceived = (event) => {
-      setAuthToken(event.detail); // Update state with token from event
-      console.log("====================================");
-      console.log(event);
-      console.log("====================================");
+    const handleUserDataReceived = (event) => {
+      const { user, token } = event.detail;
+      console.log("Received from iOS event:", { user, token });
+      setUser(user);
+      setToken(token);
     };
 
-    window.addEventListener("tokenReceived", handleTokenReceived);
+    // Listen for the custom event dispatched by iOS
+    window.addEventListener("userDataReceived", handleUserDataReceived);
 
     // Cleanup listener on unmount
     return () => {
-      window.removeEventListener("tokenReceived", handleTokenReceived);
+      window.removeEventListener("userDataReceived", handleUserDataReceived);
     };
   }, []);
 
-  return { user, token: authToken };
+  // Optional: Handle manual calls to window.receiveToken after initial injection
+  useEffect(() => {
+    if (window.receiveToken) {
+      const originalReceiveToken = window.receiveToken;
+      window.receiveToken = (user, token) => {
+        console.log("Manual call to receiveToken:", { user, token });
+        setUser(user);
+        setToken(token);
+        originalReceiveToken(user, token); // Preserve original behavior (localStorage, event)
+      };
+    }
+  }, []);
+
+  return { user, token };
 };
 
 export default useIOSJSInjection;
