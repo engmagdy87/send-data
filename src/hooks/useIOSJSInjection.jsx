@@ -15,27 +15,22 @@ const useIOSJSInjection = () => {
       setToken(token);
     };
 
-    // Listen for the custom event dispatched by iOS
     window.addEventListener("userDataReceived", handleUserDataReceived);
-
-    // Cleanup listener on unmount
-    return () => {
+    return () =>
       window.removeEventListener("userDataReceived", handleUserDataReceived);
-    };
   }, []);
 
-  // Optional: Handle manual calls to window.receiveToken after initial injection
-  // useEffect(() => {
-  //   if (window.receiveToken) {
-  //     const originalReceiveToken = window.receiveToken;
-  //     window.receiveToken = (user, token) => {
-  //       console.log("Manual call to receiveToken:", { user, token });
-  //       setUser(user);
-  //       setToken(token);
-  //       originalReceiveToken(user, token); // Preserve original behavior (localStorage, event)
-  //     };
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (window.receiveToken) {
+      const originalReceiveToken = window.receiveToken;
+      window.receiveToken = (user, token) => {
+        console.log("Manual call to receiveToken:", { user, token });
+        setUser(user);
+        setToken(token);
+        originalReceiveToken(user, token); // Preserve localStorage and event dispatch
+      };
+    }
+  }, []);
 
   return { user, token };
 };
