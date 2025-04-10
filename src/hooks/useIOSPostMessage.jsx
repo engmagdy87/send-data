@@ -10,7 +10,7 @@ const useIOSPostMessage = () => {
   }, []);
 
   const iosPostMessageEventHandlerCustom = useCallback((e) => {
-    setDataFromIOSPostMessageCustom(e?.token);
+    setDataFromIOSPostMessageCustom(e?.detail);
   }, []);
 
   useEffect(() => {
