@@ -34,7 +34,7 @@ function App() {
         ) : (
           <p style={{ opacity: 0.4 }}>
             No data received yet using <br />
-            postMessage
+            postMessage (updated)
           </p>
         )}
         <hr />
