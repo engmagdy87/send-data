@@ -16,44 +16,51 @@ declare global {
 }
 
 export const useMobileBridge = () => {
-  const [token, setToken] = useState<string | null>(null);
+  const [token, setToken] = useState<string>("defaultToken"); // Initialize with default token
   const [language, setLanguage] = useState<string | null>(null);
 
   // Called by native app after WebView loads
   const initBreadFast = useCallback((tokenFromNative: string, lang: string) => {
     setToken(tokenFromNative);
     setLanguage(lang);
+    console.log(
+      `initBreadFast called - Token: ${tokenFromNative}, Language: ${lang}`
+    );
   }, []);
 
   // Called by native app after refreshing token
   const tokenRefreshed = useCallback((newToken: string) => {
     setToken(newToken);
+    console.log(`tokenRefreshed called - New Token: ${newToken}`);
   }, []);
 
-  // Trigger native apps to refresh token
-  const refreshToken = useCallback(() => {
+  // Send refreshToken message to Android
+  const sendMessageToAndroid = useCallback(() => {
     const oldToken = "Old Token";
-
     if (window.AndroidBridge?.refreshToken) {
       window.AndroidBridge.refreshToken(oldToken);
       console.log("Sent refreshToken to Android");
-    }
-
-    if (window.webkit?.messageHandlers?.refreshToken) {
-      window.webkit.messageHandlers.refreshToken.postMessage(oldToken);
-      console.log("Sent refreshToken to iOS");
+    } else {
+      console.log("AndroidBridge not available");
     }
   }, []);
 
-  // Set up interval to call refreshToken every 10 seconds
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      refreshToken();
-    }, 10000); // 10 seconds in milliseconds
+  // Send refreshToken message to iOS
+  const sendMessageToiOS = useCallback(() => {
+    const oldToken = "Old Token";
+    if (window.webkit?.messageHandlers?.refreshToken) {
+      window.webkit.messageHandlers.refreshToken.postMessage(oldToken);
+      console.log("Sent refreshToken to iOS");
+    } else {
+      console.log("webkit.messageHandlers.refreshToken not available");
+    }
+  }, []);
 
-    // Clean up interval on component unmount
-    return () => clearInterval(intervalId);
-  }, [refreshToken]);
+  // Trigger refreshToken for both platforms (called by button)
+  const refreshToken = useCallback(() => {
+    sendMessageToAndroid();
+    sendMessageToiOS();
+  }, [sendMessageToAndroid, sendMessageToiOS]);
 
   // Expose to window for native to call
   (window as any).initBreadFast = initBreadFast;
