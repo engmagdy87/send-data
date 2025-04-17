@@ -16,22 +16,32 @@ declare global {
 }
 
 export const useMobileBridge = () => {
-  const [token, setToken] = useState<string>("defaultToken"); // Initialize with default token
-  const [language, setLanguage] = useState<string | null>(null);
+  const [token, setToken] = useState<string | null>(""); // Unchanged default
+  const [language, setLanguage] = useState<string | null>(null); // Unchanged default
 
-  // Called by native app after WebView loads
+  // Called by native app after WebView loads or at startup
   const initBreadFast = useCallback((tokenFromNative: string, lang: string) => {
-    setToken(tokenFromNative);
-    setLanguage(lang);
-    console.log(
-      `initBreadFast called - Token: ${tokenFromNative}, Language: ${lang}`
-    );
+    try {
+      setToken(tokenFromNative);
+      setLanguage(lang);
+      console.log(
+        `initBreadFast called - Token: ${tokenFromNative}, Language: ${lang}, Time: ${new Date().toISOString()}`
+      );
+    } catch (error) {
+      console.error(`initBreadFast error: ${error}`);
+    }
   }, []);
 
   // Called by native app after refreshing token
   const tokenRefreshed = useCallback((newToken: string) => {
-    setToken(newToken);
-    console.log(`tokenRefreshed called - New Token: ${newToken}`);
+    try {
+      setToken(newToken);
+      console.log(
+        `tokenRefreshed called - New Token: ${newToken}, Time: ${new Date().toISOString()}`
+      );
+    } catch (error) {
+      console.error(`tokenRefreshed error: ${error}`);
+    }
   }, []);
 
   // Send refreshToken message to Android
@@ -73,10 +83,12 @@ export const useMobileBridge = () => {
     return () => clearInterval(intervalId);
   }, [refreshToken]);
 
-  // Log token changes for debugging
+  // Log token and language changes for debugging
   useEffect(() => {
-    console.log("Current token:", token);
-  }, [token]);
+    console.log(
+      `State updated - Token: ${token}, Language: ${language}, Time: ${new Date().toISOString()}`
+    );
+  }, [token, language]);
 
   // Expose to window for native to call
   (window as any).initBreadFast = initBreadFast;
@@ -88,5 +100,3 @@ export const useMobileBridge = () => {
     refreshToken,
   };
 };
-
-export default useMobileBridge;
