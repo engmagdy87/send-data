@@ -56,11 +56,27 @@ export const useMobileBridge = () => {
     }
   }, []);
 
-  // Trigger refreshToken for both platforms (called by button)
+  // Trigger refreshToken for both platforms
   const refreshToken = useCallback(() => {
     sendMessageToAndroid();
     sendMessageToiOS();
   }, [sendMessageToAndroid, sendMessageToiOS]);
+
+  // Set up interval to call refreshToken every 10 seconds
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      refreshToken();
+      console.log("Automatic refreshToken triggered");
+    }, 10000); // 10 seconds in milliseconds
+
+    // Clean up interval on component unmount
+    return () => clearInterval(intervalId);
+  }, [refreshToken]);
+
+  // Log token changes for debugging
+  useEffect(() => {
+    console.log("Current token:", token);
+  }, [token]);
 
   // Expose to window for native to call
   (window as any).initBreadFast = initBreadFast;
