@@ -1,10 +1,12 @@
 import useIOSPostMessage from "./hooks/useIOSPostMessage";
 import useIOSJSInjection from "./hooks/useIOSJSInjection";
+import useMobileBridge from "./hooks/useMobileBridge";
 import "./App.css";
 
 function App() {
   const dataFromIOSPostMessage = useIOSPostMessage();
   const dataFromIOSJSInjection = useIOSJSInjection();
+  const { token, language, refreshToken } = useMobileBridge();
 
   const sendDataToNative = () => {
     if (
@@ -66,6 +68,16 @@ function App() {
             JS Injection
           </p>
         )}
+      </div>
+
+      <br />
+      <br />
+      <br />
+      <div>
+        <h1>Dummy Web</h1>
+        <div>Token: {token ?? "No token yet"}</div>
+        <div>Language: {language ?? "No language yet"}</div>
+        <button onClick={refreshToken}>Refresh Token</button>
       </div>
     </>
   );
