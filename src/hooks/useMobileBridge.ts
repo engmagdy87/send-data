@@ -100,3 +100,5 @@ export const useMobileBridge = () => {
     refreshToken,
   };
 };
+
+export default useMobileBridge;
