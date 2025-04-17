@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 
 declare global {
   interface Window {
@@ -36,12 +36,24 @@ export const useMobileBridge = () => {
 
     if (window.AndroidBridge?.refreshToken) {
       window.AndroidBridge.refreshToken(oldToken);
+      console.log("Sent refreshToken to Android");
     }
 
     if (window.webkit?.messageHandlers?.refreshToken) {
       window.webkit.messageHandlers.refreshToken.postMessage(oldToken);
+      console.log("Sent refreshToken to iOS");
     }
   }, []);
+
+  // Set up interval to call refreshToken every 10 seconds
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      refreshToken();
+    }, 10000); // 10 seconds in milliseconds
+
+    // Clean up interval on component unmount
+    return () => clearInterval(intervalId);
+  }, [refreshToken]);
 
   // Expose to window for native to call
   (window as any).initBreadFast = initBreadFast;

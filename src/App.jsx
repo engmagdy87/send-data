@@ -70,9 +70,15 @@ function App() {
         )}
       </div>
 
-      <br />
-      <br />
-      <br />
+      <div className="card-border">
+        <h4>
+          Received Data from iOS app using <br /> Functions
+        </h4>
+        <p style={{ width: "100%" }}>
+          <div>Token: {token ?? "No token yet"}</div>
+          <div>Language: {language ?? "No language yet"}</div>
+        </p>
+      </div>
       <div>
         <h1>Dummy Web</h1>
         <div>Token: {token ?? "No token yet"}</div>
