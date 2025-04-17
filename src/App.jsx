@@ -24,6 +24,21 @@ function App() {
     <>
       <h3>Test Data Transmission Between WebView and iOS App</h3>
       <div className="card-border">
+        <h4>
+          Received Data from iOS app using <br /> Functions
+        </h4>
+        <h5>
+          Token will be refresh automatically after 10 sec or by click on the
+          button
+        </h5>
+        <p style={{ width: "100%" }}>
+          <div>Token: {token ?? "No token yet"}</div>
+          <div>Language: {language ?? "No language yet"}</div>
+          <br />
+          <button onClick={refreshToken}>Get Refresh Token</button>
+        </p>
+      </div>
+      <div className="card-border">
         <h4>Send Data to iOS App using postMessage</h4>
         <button onClick={sendDataToNative}>Send</button>
       </div>
@@ -68,21 +83,6 @@ function App() {
             JS Injection
           </p>
         )}
-      </div>
-
-      <div className="card-border">
-        <h4>
-          Received Data from iOS app using <br /> Functions
-        </h4>
-        <h5>
-          Token will be refresh automatically after 10 sec or by click on the
-          button
-        </h5>
-        <p style={{ width: "100%" }}>
-          <div>Token: {token ?? "No token yet"}</div>
-          <div>Language: {language ?? "No language yet"}</div>
-          <button onClick={refreshToken}>Refresh Token</button>
-        </p>
       </div>
     </>
   );
