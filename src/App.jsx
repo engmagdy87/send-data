@@ -74,16 +74,15 @@ function App() {
         <h4>
           Received Data from iOS app using <br /> Functions
         </h4>
+        <h5>
+          Token will be refresh automatically after 10 sec or by click on the
+          button
+        </h5>
         <p style={{ width: "100%" }}>
           <div>Token: {token ?? "No token yet"}</div>
           <div>Language: {language ?? "No language yet"}</div>
+          <button onClick={refreshToken}>Refresh Token</button>
         </p>
-      </div>
-      <div>
-        <h1>Dummy Web</h1>
-        <div>Token: {token ?? "No token yet"}</div>
-        <div>Language: {language ?? "No language yet"}</div>
-        <button onClick={refreshToken}>Refresh Token</button>
       </div>
     </>
   );
