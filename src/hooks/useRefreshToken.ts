@@ -1,21 +1,6 @@
 import { useState, useCallback, useEffect } from "react";
 
-declare global {
-  interface Window {
-    AndroidBridge?: {
-      refreshToken: (token: string) => void;
-    };
-    webkit?: {
-      messageHandlers?: {
-        refreshToken?: {
-          postMessage: (token: string) => void;
-        };
-      };
-    };
-  }
-}
-
-export const useMobileBridge = () => {
+export const useRefreshToken = () => {
   const [token, setToken] = useState<string | null>(""); // Unchanged default
   const [language, setLanguage] = useState<string | null>(null); // Unchanged default
 
@@ -101,4 +86,4 @@ export const useMobileBridge = () => {
   };
 };
 
-export default useMobileBridge;
+export default useRefreshToken;

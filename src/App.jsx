@@ -1,23 +1,17 @@
 import useIOSPostMessage from "./hooks/useIOSPostMessage";
 import useIOSJSInjection from "./hooks/useIOSJSInjection";
-import useMobileBridge from "./hooks/useMobileBridge";
+import useRefreshToken from "./hooks/useRefreshToken";
+import useUpdateAddress from "./hooks/useUpdateAddress";
 import "./App.css";
 
 function App() {
   const dataFromIOSPostMessage = useIOSPostMessage();
   const dataFromIOSJSInjection = useIOSJSInjection();
-  const { token, language, refreshToken } = useMobileBridge();
+  const { token, language, refreshToken } = useRefreshToken();
+  const { updateAddress } = useUpdateAddress();
 
   const sendDataToNative = () => {
-    if (
-      window.webkit &&
-      window.webkit.messageHandlers &&
-      window.webkit.messageHandlers.updateAddress
-    ) {
-      window.webkit.messageHandlers.updateAddress.postMessage({
-        message: "Hello iOS Native App!",
-      });
-    }
+    updateAddress();
   };
 
   return (
@@ -39,7 +33,7 @@ function App() {
         </p>
       </div>
       <div className="card-border">
-        <h4>Send Data to iOS App using postMessage</h4>
+        <h4>Send Data to Android and iOS App using postMessage</h4>
         <button onClick={sendDataToNative}>Send</button>
       </div>
       <div className="card-border">
