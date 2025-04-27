@@ -1,5 +1,12 @@
 import { useState, useEffect } from "react";
 
+// Extend the Window interface to include iosJSInjectionData
+declare global {
+  interface Window {
+    iosJSInjectionData?: any;
+  }
+}
+
 const useIOSJSInjection = () => {
   const [user, setUser] = useState(() => {
     const storedUser = localStorage.getItem("userData");
