@@ -1,4 +1,5 @@
 import useIOSPostMessage from "./hooks/useIOSPostMessage";
+import useAndroidPostMessage from "./hooks/useAndroidPostMessage";
 import useIOSJSInjection from "./hooks/useIOSJSInjection";
 import useRefreshToken from "./hooks/useRefreshToken";
 import useUpdateAddress from "./hooks/useUpdateAddress";
@@ -6,6 +7,7 @@ import "./App.css";
 
 function App() {
   const dataFromIOSPostMessage = useIOSPostMessage();
+  const dataFromAndroidPostMessage = useAndroidPostMessage();
   const dataFromIOSJSInjection = useIOSJSInjection();
   const { token, language, refreshToken } = useRefreshToken();
   const { updateAddress } = useUpdateAddress();
@@ -45,7 +47,7 @@ function App() {
         ) : (
           <p style={{ opacity: 0.4 }}>
             No data received yet using <br />
-            postMessage (updated)
+            IOS postMessage (updated)
           </p>
         )}
         <hr />
@@ -59,7 +61,36 @@ function App() {
           <p style={{ opacity: 0.4 }}>
             No data received yet using
             <br />
-            custom postMessage
+            IOS custom postMessage
+          </p>
+        )}
+      </div>
+      <div className="card-border">
+        <h4>Received Data from Android app using postMessage</h4>
+        {dataFromAndroidPostMessage?.dataFromAndroidPostMessage ? (
+          <p style={{ width: "100%" }}>
+            {JSON.stringify(
+              dataFromAndroidPostMessage.dataFromAndroidPostMessage
+            )}
+          </p>
+        ) : (
+          <p style={{ opacity: 0.4 }}>
+            No data received yet using <br />
+            Android postMessage (updated)
+          </p>
+        )}
+        <hr />
+        {dataFromAndroidPostMessage?.dataFromAndroidPostMessageCustom ? (
+          <p style={{ width: "100%" }}>
+            {JSON.stringify(
+              dataFromAndroidPostMessage.dataFromAndroidPostMessageCustom
+            )}
+          </p>
+        ) : (
+          <p style={{ opacity: 0.4 }}>
+            No data received yet using
+            <br />
+            Android custom postMessage
           </p>
         )}
       </div>
